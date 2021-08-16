@@ -4,7 +4,7 @@ import { ConfigModule } from 'nestjs-config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-const path = require('path');
+import * as path from 'path';
 
 @Module({
   imports: [
