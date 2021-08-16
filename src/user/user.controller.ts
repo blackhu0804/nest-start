@@ -1,27 +1,24 @@
-import { Controller, Get, ParseIntPipe, Query, Response } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Query, Response } from '@nestjs/common';
 import { LogService } from '../modules/log/log.service';
+import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(
-		private readonly userService: UserService,
-		private readonly logService: LogService
-	) {}
+    private readonly userService: UserService,
+    private readonly logService: LogService,
+  ) {}
 
-  @Get('/')
-  async userList(
-			@Query('age', new ParseIntPipe) age: number,
-			@Query('name') name: string
-		): Promise<any[]> {
-		this.logService.log('运行了userList controller');
-		console.log('query:', name, age);
-		return await this.userService.userList();
+  @Post()
+  async createUser(
+		@Body() data: { [propName: string]: any }
+	): Promise<UserEntity> {
+		return await this.userService.createUser(data);
 	}
 
-	@Get('login')
-	async login(@Response() res) {
-		res.cookie('name', 'black', { maxAge: 1000 * 5, httpOnly: true });
-		res.send('login');
+	@Get()
+	async userList(): Promise<UserEntity[]> {
+		return await this.userService.userList();
 	}
 }

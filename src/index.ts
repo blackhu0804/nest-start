@@ -1,6 +1,6 @@
 import { Post } from '@nestjs/common';
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnection } from 'typeorm';
 import { Posts } from './entity/Posts';
 import { Tags } from './entity/tags';
 import { User } from './entity/User';
@@ -48,7 +48,7 @@ createConnection()
     // console.log("Here you can setup and run express/koa/any other framework.");
 
     // 添加一对多数据
-    const user = await userRepository.findOne(9);
+    // const user = await userRepository.findOne(9);
     // const post1 = new Posts();
     // post1.title = 'title1';
     // post1.content = 'content1';
@@ -58,7 +58,7 @@ createConnection()
 
     // user.posts = [post1, post2];
 
-    const postRepository = connection.getRepository(Posts);
+    // const postRepository = connection.getRepository(Posts);
     // await postRepository.save(post1);
     // await postRepository.save(post2);
     // await userRepository.save(user);
@@ -97,6 +97,46 @@ createConnection()
     // console.log('添加数据成功！');
 
     // const result = await postRepository.findOne({ where: { id: 8 }, relations: ['tags', 'user'] });
+    // console.log(result);
+
+    // find 使用
+    // const result = await userRepository.find({ order: { id: 'ASC' }, relations: ['userDetail']});
+    // console.log(result)
+
+    // QueryBuilder
+    // 1. 查询
+    // const user = await getConnection()
+    //   .createQueryBuilder(User, 'user')
+    //   .select(['user.id', 'user.username'])
+    //   .where('(user.id=:id)', { id: 9 })
+    //   .getOne();
+    // console.log(user);
+
+    // 2. 插入数据
+    // const result = await getConnection()
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into(User)
+    //   .values([{ username: 'suyu', 'password': '123456'}])
+    //   .execute()
+    // console.log(result);
+
+    // 3. 更新数据
+    // const result = await getConnection()
+    //   .createQueryBuilder()
+    //   .update(User)
+    //   .set({ username: '测试' })
+    //   .where('id=:id', { id: 10 })
+    //   .execute()
+    // console.log(result);
+
+    // 4. 删除数据
+    // const result = await getConnection()
+    //   .createQueryBuilder()
+    //   .delete()
+    //   .from(User)
+    //   .where('id=:id', { id: 10 })
+    //   .execute()
     // console.log(result);
   })
   .catch((error) => console.log(error));
