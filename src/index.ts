@@ -1,5 +1,8 @@
+import { Post } from '@nestjs/common';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
+import { Posts } from './entity/Posts';
+import { Tags } from './entity/tags';
 import { User } from './entity/User';
 import { UserExtend } from './entity/UserExtend';
 
@@ -26,8 +29,8 @@ createConnection()
     // await userExtendRepository.save(userExtend);
 
     // 查询
-    const result = await userRepository.find({ relations: ['userDetail'] });
-    console.log(result);
+    // const result = await userRepository.find({ relations: ['userDetail'] });
+    // console.log(result);
 
     // 删除：
     // const user = await userRepository.findOne(1);
@@ -43,5 +46,57 @@ createConnection()
     // console.log("Loaded users: ", users);
 
     // console.log("Here you can setup and run express/koa/any other framework.");
+
+    // 添加一对多数据
+    const user = await userRepository.findOne(9);
+    // const post1 = new Posts();
+    // post1.title = 'title1';
+    // post1.content = 'content1';
+    // const post2 = new Posts();
+    // post2.title = 'title2';
+    // post2.content = 'content2';
+
+    // user.posts = [post1, post2];
+
+    const postRepository = connection.getRepository(Posts);
+    // await postRepository.save(post1);
+    // await postRepository.save(post2);
+    // await userRepository.save(user);
+    // console.log('添加数据成功');
+
+    // 查询一对多数据
+    // const result = await userRepository.findAndCount({ where: {id: 9}, relations: ['posts'] });
+    // const result = await postRepository.find({relations: ['user']});
+    // console.log(result);
+
+    // 添加多对多数据
+    // const tag1 = new Tags();
+    // tag1.name = 'js';
+    // const tag2 = new Tags();
+    // tag2.name = 'css';
+
+    // const tagRepository = connection.getRepository(Tags);
+    // tagRepository.save(tag1);
+    // tagRepository.save(tag2);
+
+    // const posts1 = new Posts();
+    // posts1.title = '文章一';
+    // posts1.content = '文章一内容';
+    // posts1.tags = [tag1, tag2];
+
+    // // 帖子二
+    // const posts2 = new Posts();
+    // posts2.title = '文章二';
+    // posts2.content = '文章二内容';
+    // posts2.tags = [tag1];
+    // user.posts = [posts1, posts2];
+
+    // await postRepository.save(posts1);
+    // await postRepository.save(posts2);
+    // await userRepository.save(user);
+    // console.log('添加数据成功！');
+
+    // const result = await postRepository.findOne({ where: { id: 8 }, relations: ['tags', 'user'] });
+    // console.log(result);
   })
   .catch((error) => console.log(error));
