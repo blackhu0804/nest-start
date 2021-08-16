@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from 'nestjs-config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-// import { LogModule } from './modules/log/log.module';
+const path = require('path');
 
 @Module({
   imports: [
+    ConfigModule.load(path.resolve(__dirname, 'config', '**/!(*.d).{ts,js}'), {
+      modifyConfigName: name => name.replace('.config', ''),
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
