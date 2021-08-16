@@ -1,3 +1,4 @@
+import { Exclude, Expose } from "class-transformer";
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from "typeorm";
 // import { Posts } from "./Posts";
 // import { UserExtend } from "./UserExtend";
@@ -21,6 +22,7 @@ export class UserEntity {
   })
   username: string;
 
+  @Exclude()
   @Column({
     type: 'varchar',
     nullable: false,
@@ -52,6 +54,11 @@ export class UserEntity {
     comment: '更新时间',
   })
   updateAt: Date;
+
+  @Expose()
+  isDelStr(): string {
+    return this.isDel ? '删除' : '正常';
+  }
 
 //   @OneToOne(() => UserExtend, userExtend => userExtend.user)
 //   userDetail: UserExtend

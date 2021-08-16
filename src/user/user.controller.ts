@@ -1,7 +1,8 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, Response, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Response, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '../guard/auth.guard';
 import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 import { LogService } from '../modules/log/log.service';
+import { CreateUserDto } from './dto/create.user.dto';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 
@@ -15,7 +16,7 @@ export class UserController {
 
   @Post()
   async createUser(
-		@Body() data: { [propName: string]: any }
+		@Body() data: CreateUserDto
 	): Promise<UserEntity> {
 		return await this.userService.createUser(data);
 	}
