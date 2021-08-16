@@ -13,6 +13,8 @@ import { UserEntity } from "./user.entity";
     LogModule.register('user-test')
   ],
   controllers: [UserController],
-  providers: [UserService]
+  providers: [
+    UserService
+  ]
 })
 export class UserModule {}
