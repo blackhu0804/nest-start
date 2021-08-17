@@ -2,7 +2,7 @@ import { Exclude, Expose } from "class-transformer";
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from "typeorm";
 // import { Posts } from "./Posts";
 // import { UserExtend } from "./UserExtend";
-
+import * as jwt from 'jsonwebtoken';
 @Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn({
@@ -58,6 +58,32 @@ export class UserEntity {
   @Expose()
   isDelStr(): string {
     return this.isDel ? '删除' : '正常';
+  }
+
+  @Expose()
+  private get token() {
+    const { id, username } = this;
+    return jwt.sign({
+      id,
+      username
+    },
+    process.env.SECRET, // 加盐
+    {
+      expiresIn: '7d', // 过期时间
+    });
+  }
+
+  public toResponseObject(isShowToken = true): { [propsName: string ]: any } {
+    const { password, token, username, ...params } = this;
+    const responseData = {
+      username,
+      ...params
+    }
+    if (isShowToken) {
+      return { ...responseData, token };
+    } else {
+      return responseData;
+    }
   }
 
 //   @OneToOne(() => UserExtend, userExtend => userExtend.user)

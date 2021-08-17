@@ -15,6 +15,7 @@ export class UserController {
   ) {}
 
   @Post()
+	@UseGuards(AuthGuard)
   async createUser(
 		@Body() data: CreateUserDto
 	): Promise<UserEntity> {
@@ -26,4 +27,11 @@ export class UserController {
 	async userList(): Promise<UserEntity[]> {
 		return await this.userService.userList();
 	}
+
+	@Post('/login')
+  async login(
+		@Body() data: CreateUserDto
+  ): Promise<any> {
+    return await this.userService.login(data);
+  }
 }

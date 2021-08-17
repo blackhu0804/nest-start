@@ -4,6 +4,7 @@ import { LogModule } from '../modules/log/log.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserEntity } from "./user.entity";
+import { LoginController } from './login/login.controller';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { UserEntity } from "./user.entity";
     ]),
     LogModule.register('user-test')
   ],
-  controllers: [UserController],
+  controllers: [UserController, LoginController],
   providers: [
     UserService
   ]

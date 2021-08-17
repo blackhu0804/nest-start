@@ -17,4 +17,14 @@ export class UserService {
 	async userList(): Promise<UserEntity[]> {
 		return await this.userRepository.find();
 	}
+
+	async login(data: any): Promise<any | string> {
+		const { username, password } = data;
+		const user = await this.userRepository.findOne({ where: { username }});
+		if (user) {
+			return user.toResponseObject(true);
+		} else {
+			return '账号密码错误';
+		}
+ 	}
 }
